@@ -1,7 +1,5 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <button @click="alertButton">Click Me</button>
 	  <Posts />
   </div>
 </template>
