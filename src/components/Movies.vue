@@ -1,7 +1,7 @@
 <template>
 	<div class="header-search">
 		<h1>El Tomate Pudrido</h1>
-		<input class="search" type="text" v-model="search" placeholder="Search movies..." />
+		<input class="search" type="text" v-model="search" @keyup="searchArray" placeholder="Search movies..." />
 	</div>
 	<div v-if="error">{{ error }}</div>
 	<div v-if="movies.length === 0"><h1>LOADING...</h1></div>
@@ -17,14 +17,14 @@
 	</div>
 	<div v-else class="card-container">
 		<div v-for="(movie, index) in movieSearch">
-			<div v-if="movies.results[index].title.toLowerCase().includes(search.toLowerCase())" >
-				<div v-if="index % 2 === 0" class="movie-card" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movies.results[index].poster_path}')`}">
-					<p ref="movieResult">{{ movies.results[index].title }}</p>
+<!--			<div v-if="movies.results[index].title.toLowerCase().includes(search.toLowerCase())" >-->
+				<div v-if="index % 2 === 0" class="movie-card" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movieSearch[index].poster_path}')`}">
+					<p ref="movieResult">{{ movieSearch[index].title }}</p>
 				</div>
-				<div v-else class="movie-card1" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movies.results[index].poster_path}')`}">
-					<p ref="movieResult">{{ movies.results[index].title }}</p>
+				<div v-else class="movie-card1" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movieSearch[index].poster_path}')`}">
+					<p ref="movieResult">{{ movieSearch[index].title }}</p>
 				</div>
-			</div>
+<!--			</div>-->
 		</div>
 	</div>
 </template>
@@ -58,12 +58,14 @@ export default {
 			}
 		}
 		load()
-		function searchArray() {
-			for (let i = 0; i < movies.value.length; i++) {
-				if (movies.results[i].search(search) > -1) {
-					movieSearch.value.push(movies.results[i]);
+		async function searchArray() {
+			movieSearch.value = [];
+			for (let i = 0; i < movies.value.results.length; i++) {
+				if (movies.value.results[i].title.toLowerCase().indexOf(search.value.toLowerCase()) > -1) {
+					movieSearch.value.push(movies.value.results[i]);
 				}
 			}
+			console.log(movieSearch.value)
 		}
 		return {movies, error, search, movieSearch, searchArray}
 	}
