@@ -1,5 +1,8 @@
 <template>
-	<h1>Vue 3 and Fetch Example</h1>
+  <div class="header-search">
+    <h1>El Tomate Pudrido</h1>
+    <input class="search" type="text" v-model="input" placeholder="Search movies..." />
+  </div>
 	<div v-if="error">{{ error }}</div>
 	<div v-if="movies.length === 0"><h1>LOADING...</h1></div>
 	<div class="card-container">
@@ -64,6 +67,7 @@ export default {
 		border-radius: 10px;
 		background-size: cover;
 		margin: .5em;
+    box-shadow: #334a52 12px 12px 15px ;
 	}
 	.movie-card1 {
 		height: 400px;
@@ -71,5 +75,31 @@ export default {
 		border-radius: 10px;
 		background-size: cover;
 		margin: .7em;
+    box-shadow: #334a52 10px 10px 15px;
 	}
+  .header-search h1{
+    font-size: 3rem;
+    padding-bottom: .4em;
+    padding-top:.2em;
+    text-align: left;
+    padding-left: .6em;
+    background: #1e1432;
+    margin: 0;
+  }
+  .header-search{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+   background: #1e1432;
+  }
+  .search{
+    height:2em;
+    width: 30em;
+    margin:1em;
+    background: #faeaff;
+    font-family: Valkyrie;
+    border: none;
+    border-radius: 5px;
+
+  }
 </style>
