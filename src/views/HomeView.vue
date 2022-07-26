@@ -1,16 +1,16 @@
 <template>
   <div class="home">
-	  <Posts />
+	  <Movies />
   </div>
 </template>
 
 <script>
-import Posts from '@/components/Movies.vue'
+import Movies from '@/components/Movies.vue'
 
 export default {
   name: 'HomeView',
 	components: {
-		Posts
+		Movies
 	},
   setup () {
 	function alertButton() {
