@@ -8,23 +8,34 @@
 	<div v-if="search === ''" class="card-container">
 		<div v-for="(movie, index) in movies.results">
 			<div v-if="index % 2 === 0" class="movie-card" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movies.results[index].poster_path}')`}">
-				<p ref="movieResult">{{ movies.results[index].title }}</p>
+				<div class="card-contents">
+					<div class="title"><p>{{ movies.results[index].title }}</p></div>
+					<p class="overview">{{ movies.results[index].overview }}</p>
+					<p class="vote">{{ movies.results[index].vote_average }}</p>
+				</div>
 			</div>
 			<div v-if="index % 2 !== 0" class="movie-card1" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movies.results[index].poster_path}')`}">
-				<p ref="movieResult">{{ movies.results[index].title }}</p>
+				<div class="card-contents">
+					<div class="title"><p>{{ movies.results[index].title }}</p></div>
+					<p class="overview">{{ movies.results[index].overview }}</p>
+					<p class="vote">{{ movies.results[index].vote_average }}</p>
+				</div>
 			</div>
 		</div>
 	</div>
 	<div v-else class="card-container">
 		<div v-for="(movie, index) in movieSearch">
-<!--			<div v-if="movies.results[index].title.toLowerCase().includes(search.toLowerCase())" >-->
 				<div v-if="index % 2 === 0" class="movie-card" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movieSearch[index].poster_path}')`}">
-					<p ref="movieResult">{{ movieSearch[index].title }}</p>
+					<div class="title"><p>{{ movieSearch[index].title }}</p></div>
+					<p class="overview">{{ movieSearch[index].overview }}</p>
+					<p class="vote">{{ movieSearch[index].vote_average }}</p>
 				</div>
 				<div v-else class="movie-card1" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movieSearch[index].poster_path}')`}">
-					<p ref="movieResult">{{ movieSearch[index].title }}</p>
+					<div class="title"><p>{{ movieSearch[index].title }}</p></div>
+					<p class="overview">{{ movieSearch[index].overview }}</p>
+					<p class="vote">{{ movieSearch[index].vote_average }}</p>
 				</div>
-<!--			</div>-->
+
 		</div>
 	</div>
 </template>
@@ -84,6 +95,8 @@ export default {
 	overflow: scroll;
 }
 .movie-card {
+	display: grid;
+	grid-template-areas: "vote" "overview" "title";
 	height: 500px;
 	width: 300px;
 	border-radius: 10px;
@@ -93,6 +106,8 @@ export default {
 	box-shadow: #68D9C3 6px 6px 15px ;
 }
 .movie-card1 {
+	display: grid;
+	grid-template-areas: "vote" "overview" "title";
 	height: 400px;
 	width: 300px;
 	border-radius: 10px;
@@ -123,12 +138,64 @@ export default {
 	font-family: Valkyrie, serif;
 	border: none;
 	border-radius: 5px;
+	outline: none;
 	color: #733C61;
 }
 .search:before, .search:after, .search:active, .search:focus {
 	border: none;
+	outline: none;
 }
 .search::placeholder {
 	color: #733C61;
+}
+.title {
+	grid-area: title;
+	position: relative;
+	background-color: #F9F871;
+	margin: auto auto 0;
+	height: 3rem;
+	width: 80%;
+	padding: 10px;
+	justify-content: center;
+	border-radius: 2px;
+	overflow: hidden;
+}
+.title p {
+	font-size: 1.5rem;
+	color: #3a3a3a;
+	margin: 0;
+	padding: 0;
+}
+.overview {
+	grid-area: overview;
+	color: #3a3a3a;
+	padding: 1em;
+	font-size: 1rem;
+}
+.vote {
+	display: flex;
+	position: relative;
+	grid-area: vote;
+	color: #3a3a3a;
+	font-size: 1.5rem;
+	background-color: #F9F871;
+	border-radius: 50%;
+	width: 2em;
+	height: 2em;
+	justify-content: center;
+	align-items: center;
+	margin: .2em auto;
+	padding: 0;
+}
+.card-contents {
+	opacity: 0;
+	transition: ease-in-out .7s;
+	overflow: scroll;
+}
+.card-contents:hover {
+	opacity: 1;
+	background: linear-gradient(160deg, #E68164, #733C61);
+	height: inherit;
+	border-radius: 10px;
 }
 </style>
