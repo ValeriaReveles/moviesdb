@@ -1,6 +1,11 @@
 <template>
+	<Teleport to="body" v-if="showModal">
+		<Modal @close="showModal = false"></Modal>
+	</Teleport>
+
 	<div class="header-search">
 		<h1>El Tomate Pudrido</h1>
+		<button @click="showModal = true">Add a Movie</button>
 		<input class="search" type="text" v-model="search" @keyup="searchArray" placeholder="Search movies..." />
 	</div>
 	<div v-if="error">{{ error }}</div>
@@ -12,6 +17,7 @@
 					<div class="title"><p>{{ movies.results[index].title }}</p></div>
 					<p class="overview">{{ movies.results[index].overview }}</p>
 					<p class="vote">{{ movies.results[index].vote_average }}</p>
+					<button class="deleteButton" @click="deleteParent(index)">X</button>
 				</div>
 			</div>
 			<div v-if="index % 2 !== 0" class="movie-card1" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movies.results[index].poster_path}')`}">
@@ -19,6 +25,7 @@
 					<div class="title"><p>{{ movies.results[index].title }}</p></div>
 					<p class="overview">{{ movies.results[index].overview }}</p>
 					<p class="vote">{{ movies.results[index].vote_average }}</p>
+					<button class="deleteButton" @click="deleteParent(index)" >X</button>
 				</div>
 			</div>
 		</div>
@@ -26,14 +33,20 @@
 	<div v-else class="card-container">
 		<div v-for="(movie, index) in movieSearch">
 				<div v-if="index % 2 === 0" class="movie-card" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movieSearch[index].poster_path}')`}">
-					<div class="title"><p>{{ movieSearch[index].title }}</p></div>
-					<p class="overview">{{ movieSearch[index].overview }}</p>
-					<p class="vote">{{ movieSearch[index].vote_average }}</p>
+					<div class="card-contents">
+						<div class="title"><p>{{ movieSearch[index].title }}</p></div>
+						<p class="overview">{{ movieSearch[index].overview }}</p>
+						<p class="vote">{{ movieSearch[index].vote_average }}</p>
+						<button class="deleteButton" @click="deleteParentMod(index)">X</button>
+					</div>
 				</div>
 				<div v-else class="movie-card1" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movieSearch[index].poster_path}')`}">
-					<div class="title"><p>{{ movieSearch[index].title }}</p></div>
-					<p class="overview">{{ movieSearch[index].overview }}</p>
-					<p class="vote">{{ movieSearch[index].vote_average }}</p>
+					<div class="card-contents">
+						<div class="title"><p>{{ movieSearch[index].title }}</p></div>
+						<p class="overview">{{ movieSearch[index].overview }}</p>
+						<p class="vote">{{ movieSearch[index].vote_average }}</p>
+						<button class="deleteButton" @click="deleteParentMod(index)">X</button>
+					</div>
 				</div>
 
 		</div>
@@ -42,13 +55,17 @@
 
 <script>
 import { ref, computed } from "vue";
+import Modal from "@/components/Modal.vue"
 export default {
 	name: 'Movies',
+	components: { Modal },
 	setup() {
 		const movies = ref([]);
 		const error = ref(null);
 		const search = ref("");
 		const movieSearch = ref([]);
+		const buttonPressed = ref(null)
+		const showModal = ref(false)
 		const load = async () => {
 			try {
 				let data = await fetch('https://api.themoviedb.org/3/discover/movie?api_key=85acbd9e80501242e6970d5c94bf2af3&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate',
@@ -76,9 +93,33 @@ export default {
 					movieSearch.value.push(movies.value.results[i]);
 				}
 			}
-			console.log(movieSearch.value)
 		}
-		return {movies, error, search, movieSearch, searchArray}
+		const deleteParent = async (i) => {
+			movies.value.results.splice(i,1)
+		}
+		const deleteParentMod = async (i) => {
+			movieSearch.value.splice(i,1)
+			movies.value.results.forEach(element => {
+				if (element.title.toLowerCase === movieSearch.value) {
+
+				}
+			})
+		}
+		const toggleModal = () => {
+			showModal.value = !showModal.value
+		}
+		return {
+			movies,
+			error,
+			search,
+			movieSearch,
+			searchArray,
+			buttonPressed,
+			deleteParent,
+			deleteParentMod,
+			showModal,
+			toggleModal
+		}
 	}
 }
 </script>
@@ -95,8 +136,6 @@ export default {
 	overflow: scroll;
 }
 .movie-card {
-	display: grid;
-	grid-template-areas: "vote" "overview" "title";
 	height: 500px;
 	width: 300px;
 	border-radius: 10px;
@@ -106,8 +145,6 @@ export default {
 	box-shadow: #68D9C3 6px 6px 15px ;
 }
 .movie-card1 {
-	display: grid;
-	grid-template-areas: "vote" "overview" "title";
 	height: 400px;
 	width: 300px;
 	border-radius: 10px;
@@ -151,14 +188,13 @@ export default {
 .title {
 	grid-area: title;
 	position: relative;
-	background-color: #F9F871;
 	margin: auto auto 0;
 	height: 3rem;
 	width: 80%;
 	padding: 10px;
 	justify-content: center;
-	border-radius: 2px;
 	overflow: hidden;
+	border-bottom: #F9F871 1px solid;
 }
 .title p {
 	font-size: 1.5rem;
@@ -188,8 +224,11 @@ export default {
 	padding: 0;
 }
 .card-contents {
+	display: grid;
+	grid-template-areas: "title button" "overview overview" "vote vote";
+	grid-template-columns: 1fr 1rem;
 	opacity: 0;
-	transition: ease-in-out .7s;
+	transition: ease-out .7s;
 	overflow: scroll;
 }
 .card-contents:hover {
@@ -197,5 +236,22 @@ export default {
 	background: linear-gradient(160deg, #E68164, #733C61);
 	height: inherit;
 	border-radius: 10px;
+}
+.deleteButton {
+	grid-area: button;
+	background: none;
+	border: none;
+	position: relative;
+	bottom: 1em;
+	right: .5em;
+	margin: 0;
+	padding: 0;
+	color: #FFB85E;
+	font-size: 1rem;
+	transition: 1s ease-in-out;
+}
+.deleteButton:hover {
+	color: #F9F871;
+	font-size: 1.2rem;
 }
 </style>
