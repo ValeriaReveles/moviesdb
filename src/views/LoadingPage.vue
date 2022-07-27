@@ -1,96 +1,233 @@
 <template>
-  <div class="main">
-    <h1>LOADING</h1>
-    <ul>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
+  <div class="container">
+    <h1>Please Stand By...</h1>
+    <h1>Please Stand By...</h1>
+    <h1>Please Stand BY...</h1>
   </div>
 </template>
 
+
+
 <script>
 export default {
-  name: "LoadingPage"
-}
+  name: 'LoadingPage',
+  setup () {
+    setTimeout(myURL, 5000);
+    function myURL(){
+      window.open("/home");
+    }
+  }
 
+}
 
 </script>
 
 <style scoped>
-html {
-  min-height: 100%;
-  background: -webkit-radial-gradient(center, ellipse cover,  rgba(41,42,45,1) 0%,rgba(0,0,0,1) 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-radial-gradient(center, ellipse cover,  rgba(41,42,45,1) 0%,rgba(0,0,0,1) 100%); /* Opera 12+ */
-  background: -ms-radial-gradient(center, ellipse cover,  rgba(41,42,45,1) 0%,rgba(0,0,0,1) 100%); /* IE10+ */
-  background: radial-gradient(ellipse at center,  rgba(41,42,45,1) 0%,rgba(0,0,0,1) 100%); /* W3C */
+ @font-face {
+  font-family: Neomax;
+   src: url("@/assets/fonts/Neomax Regular.ttf");
 }
+ /*body{*/
+ /*  background: black;*/
+ /*}*/
 
-h1{
+ .container {
+   width: 100vw;
+   height: 100vh;
+   margin: 0;
+   background: black;
+ }
 
-}
-ul {
-  margin: auto;
-  height: 10px;
-  width: 500px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  list-style: none;
-  padding: 0;
-}
+ h1 {
+   position: relative;
+   top: 400px;
+   justify-content: center;
+   /*text-align: center;*/
+   color: #fff;
+   font-size: 5em;
+   letter-spacing: 8px;
+   font-family: Vegapunk, sans-serif;
+   font-weight: 800;
+   /*Create overlap*/
+   margin: 0;
+   line-height: 0;
+   /*Animation*/
+   animation: glitch1 2.5s infinite;
+ }
 
-li {
-  display: block;
-  float: left;
-  width: 90px;
-  height: 10px;
-  margin-right: 10px;
-}
+ h1:nth-child(2) {
+   color: #67f3da;
+   animation: glitch2 2.5s infinite;
+ }
 
-li:nth-child(-n+3) {
-  background: rgba(255,255,255,0.9);
-  box-shadow: inset 0px 0px 10px 2px rgba(117,182,255,0.5),
-  0px 0px 20px rgba(117,182,214,0.5);
-}
+ h1:nth-child(3) {
+   color: #f16f6f;
+   animation: glitch3 2.5s infinite;
+ }
+ /*Keyframes*/
 
-li:nth-child(n+4) {
-  box-shadow: inset 0px 0px 10px 1px rgba(117,182,255,0.4),
-  0px 0px 20px rgba(117,182,255,0.1);
-}
+ @keyframes glitch1 {
+   0% {
+     transform: none;
+     opacity: 1;
+   }
+   7% {
+     transform: skew(-0.5deg, -0.9deg);
+     opacity: 0.75;
+   }
+   10% {
+     transform: none;
+     opacity: 1;
+   }
+   27% {
+     transform: none;
+     opacity: 1;
+   }
+   30% {
+     transform: skew(0.8deg, -0.1deg);
+     opacity: 0.75;
+   }
+   35% {
+     transform: none;
+     opacity: 1;
+   }
+   52% {
+     transform: none;
+     opacity: 1;
+   }
+   55% {
+     transform: skew(-1deg, 0.2deg);
+     opacity: 0.75;
+   }
+   50% {
+     transform: none;
+     opacity: 1;
+   }
+   72% {
+     transform: none;
+     opacity: 1;
+   }
+   75% {
+     transform: skew(0.4deg, 1deg);
+     opacity: 0.75;
+   }
+   80% {
+     transform: none;
+     opacity: 1;
+   }
+   100% {
+     transform: none;
+     opacity: 1;
+   }
+ }
 
-li:nth-child(3) {
-  -webkit-animation: pulse 1s alternate infinite;
-  -moz-animation: pulse 1s alternate infinite;
-}
+ @keyframes glitch2 {
+   0% {
+     transform: none;
+     opacity: 0.25;
+   }
+   7% {
+     transform: translate(-2px, -3px);
+     opacity: 0.5;
+   }
+   10% {
+     transform: none;
+     opacity: 0.25;
+   }
+   27% {
+     transform: none;
+     opacity: 0.25;
+   }
+   30% {
+     transform: translate(-5px, -2px);
+     opacity: 0.5;
+   }
+   35% {
+     transform: none;
+     opacity: 0.25;
+   }
+   52% {
+     transform: none;
+     opacity: 0.25;
+   }
+   55% {
+     transform: translate(-5px, -1px);
+     opacity: 0.5;
+   }
+   50% {
+     transform: none;
+     opacity: 0.25;
+   }
+   72% {
+     transform: none;
+     opacity: 0.25;
+   }
+   75% {
+     transform: translate(-2px, -6px);
+     opacity: 0.5;
+   }
+   80% {
+     transform: none;
+     opacity: 0.25;
+   }
+   100% {
+     transform: none;
+     opacity: 0.25;
+   }
+ }
 
-@-webkit-keyframes pulse {
-  0% {
-    background: rgba(255,255,255,1);
-    box-shadow: inset 0px 0px 10px 2px rgba(117,182,255,0.5),
-    0px 0px 40px 2px rgba(105,135,255,1);
-  }
-  100% {
-    background: rgba(255,255,255,0);
-    box-shadow: inset 0px 0px 10px 2px rgba(117,182,255,0.5),
-    0px 0px 30px 2px rgba(105,135,255,0.3);
-  }
-}
-
-@-moz-keyframes pulse {
-  0% {
-    background: rgba(255,255,255,1);
-    box-shadow: inset 0px 0px 10px 2px rgba(117,182,255,0.5),
-    0px 0px 40px 2px rgba(105,135,255,1);
-  }
-  100% {
-    background: rgba(255,255,255,0);
-    box-shadow: inset 0px 0px 10px 2px rgba(117,182,255,0.5),
-    0px 0px 30px 2px rgba(105,135,255,0.3);
-  }
-}
+ @keyframes glitch3 {
+   0% {
+     transform: none;
+     opacity: 0.25;
+   }
+   7% {
+     transform: translate(2px, 3px);
+     opacity: 0.5;
+   }
+   10% {
+     transform: none;
+     opacity: 0.25;
+   }
+   27% {
+     transform: none;
+     opacity: 0.25;
+   }
+   30% {
+     transform: translate(5px, 2px);
+     opacity: 0.5;
+   }
+   35% {
+     transform: none;
+     opacity: 0.25;
+   }
+   52% {
+     transform: none;
+     opacity: 0.25;
+   }
+   55% {
+     transform: translate(5px, 1px);
+     opacity: 0.5;
+   }
+   50% {
+     transform: none;
+     opacity: 0.25;
+   }
+   72% {
+     transform: none;
+     opacity: 0.25;
+   }
+   75% {
+     transform: translate(2px, 6px);
+     opacity: 0.5;
+   }
+   80% {
+     transform: none;
+     opacity: 0.25;
+   }
+   100% {
+     transform: none;
+     opacity: 0.25;
+   }
+ }
 </style>
