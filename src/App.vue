@@ -25,7 +25,7 @@
   color: #b3576a;
 }
 body{
-  background:#322646;
+  background: linear-gradient(to bottom right, #827298, #322646 25%);
 }
 
 nav {

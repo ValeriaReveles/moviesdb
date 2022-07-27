@@ -18,6 +18,7 @@
 	margin: 200px auto;
 	background: linear-gradient(to bottom right, #827398, #322646);
 	border-radius: 10px;
+	overflow: scroll;
 }
 .backdrop {
 	top: 0;
