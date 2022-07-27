@@ -1,6 +1,23 @@
 <template>
 	<Teleport to="body" v-if="showModal">
-		<Modal @close="showModal = false"></Modal>
+		<Modal @close="showModal = false">
+      <form>
+      <div>
+        <br>
+        <input v-model="movieTitle.title " type="text" placeholder="Movie Title" >
+        <br>
+        <input v-model="movieTitle.poster_path " type="text" placeholder="Image URL" >
+        <br>
+        <input v-model="movieTitle.overview " type="text" placeholder="Description" >
+        <br>
+        <input v-model="movieTitle.vote_average " type="text" placeholder="Rating" >
+        <br>
+      </div>
+      <div>
+        <button @click.prevent="addMovie" >Add Movie</button>
+      </div>
+    </form>
+    </Modal>
 	</Teleport>
 
 	<div class="header-search">
@@ -66,6 +83,9 @@ export default {
 		const movieSearch = ref([]);
 		const buttonPressed = ref(null)
 		const showModal = ref(false)
+    const movieTitle = ref({
+      title: "",  poster_path: "",  overview: "",  vote_average: ""
+    })
 		const load = async () => {
 			try {
 				let data = await fetch('https://api.themoviedb.org/3/discover/movie?api_key=85acbd9e80501242e6970d5c94bf2af3&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate',
@@ -108,7 +128,14 @@ export default {
 		const toggleModal = () => {
 			showModal.value = !showModal.value
 		}
-		return {
+
+    const addMovie = () => {
+      movies.value.results.push(movieTitle.value)
+      showModal.value = false
+      console.log(movieTitle.value);
+    }
+
+    return {
 			movies,
 			error,
 			search,
@@ -118,7 +145,9 @@ export default {
 			deleteParent,
 			deleteParentMod,
 			showModal,
-			toggleModal
+			toggleModal,
+      movieTitle,
+      addMovie
 		}
 	}
 }

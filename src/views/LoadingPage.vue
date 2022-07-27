@@ -31,7 +31,6 @@ html {
 h1{
 
 }
-
 ul {
   margin: auto;
   height: 10px;

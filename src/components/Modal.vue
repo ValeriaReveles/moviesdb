@@ -1,22 +1,7 @@
 <template>
 	<div class="backdrop" @click.self="$emit('close')">
 		<div class="modal">
-			<form>
-				<div>
-					<br>
-					<input type="text" placeholder="Movie Title" >
-					<br>
-					<input type="text" placeholder="Image URL" >
-					<br>
-					<input type="text" placeholder="Description" >
-					<br>
-					<input type="text" placeholder="Rating" >
-					<br>
-				</div>
-				<div>
-					<button @click="">Add Movie</button>
-				</div>
-			</form>
+			<slot></slot>
 		</div>
 	</div>
 </template>
