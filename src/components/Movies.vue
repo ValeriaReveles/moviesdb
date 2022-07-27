@@ -174,6 +174,7 @@ export default {
 	margin: .5em;
 	box-shadow: #68D9C3 6px 6px 15px ;
   letter-spacing: 2px;
+  border: solid 1px #C5FCEF;
 
 }
 .movie-card1 {
@@ -185,6 +186,7 @@ export default {
 	box-shadow: #68D9C3 6px 6px 15px;
   font-family: HEXCO,sans-serif;
   letter-spacing: 2px;
+  border: solid 1px #C5FCEF;
 
 }
 .header-search h1{
