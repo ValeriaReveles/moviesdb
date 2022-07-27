@@ -1,28 +1,26 @@
 <template>
 	<Teleport to="body" v-if="showModal">
 		<Modal @close="showModal = false">
-      <form>
-      <div>
-        <br>
-        <input v-model="movieTitle.title " type="text" placeholder="Movie Title" >
-        <br>
-        <input v-model="movieTitle.poster_path " type="text" placeholder="Image URL" >
-        <br>
-        <input v-model="movieTitle.overview " type="text" placeholder="Description" >
-        <br>
-        <input v-model="movieTitle.vote_average " type="text" placeholder="Rating" >
-        <br>
-      </div>
-      <div>
-        <button @click.prevent="addMovie" >Add Movie</button>
-      </div>
-    </form>
-    </Modal>
+			<form>
+				<div class="modalForm">
+					<br>
+					<input v-model="movieTitle.title " type="text" class="write" placeholder="Title">
+					<br>
+					<input v-model="movieTitle.poster_path " type="text" class="write" placeholder="Poster URL">
+					<br>
+					<input v-model="movieTitle.overview " type="text" class="write" placeholder="Description">
+					<br>
+					<input v-model="movieTitle.vote_average " type="text" class="write" placeholder="Movie Rating">
+					<br>
+					<button class="addButton" @click.prevent="addMovie" >Add Movie</button>
+				</div>
+			</form>
+		</Modal>
 	</Teleport>
 
 	<div class="header-search">
 		<h1 class="neon-text">El Tomate Pudrido</h1>
-		<button @click="showModal = true">Add a Movie</button>
+		<button class="addButton" @click="showModal = true">Add a Movie</button>
 		<input class="search" type="text" v-model="search" @keyup="searchArray" placeholder="Search movies..." />
 	</div>
 	<div v-if="error">{{ error }}</div>
@@ -49,22 +47,22 @@
 	</div>
 	<div v-else class="card-container">
 		<div v-for="(movie, index) in movieSearch">
-				<div v-if="index % 2 === 0" class="movie-card" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movieSearch[index].poster_path}')`}">
-					<div class="card-contents">
-						<div class="title"><p>{{ movieSearch[index].title }}</p></div>
-						<p class="overview">{{ movieSearch[index].overview }}</p>
-						<p class="vote">{{ movieSearch[index].vote_average }}</p>
-						<button class="deleteButton" @click="deleteParentMod(index)">X</button>
-					</div>
+			<div v-if="index % 2 === 0" class="movie-card" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movieSearch[index].poster_path}')`}">
+				<div class="card-contents">
+					<div class="title"><p>{{ movieSearch[index].title }}</p></div>
+					<p class="overview">{{ movieSearch[index].overview }}</p>
+					<p class="vote">{{ movieSearch[index].vote_average }}</p>
+					<button class="deleteButton" @click="deleteParentMod(index)">X</button>
 				</div>
-				<div v-else class="movie-card1" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movieSearch[index].poster_path}')`}">
-					<div class="card-contents">
-						<div class="title"><p>{{ movieSearch[index].title }}</p></div>
-						<p class="overview">{{ movieSearch[index].overview }}</p>
-						<p class="vote">{{ movieSearch[index].vote_average }}</p>
-						<button class="deleteButton" @click="deleteParentMod(index)">X</button>
-					</div>
+			</div>
+			<div v-else class="movie-card1" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movieSearch[index].poster_path}')`}">
+				<div class="card-contents">
+					<div class="title"><p>{{ movieSearch[index].title }}</p></div>
+					<p class="overview">{{ movieSearch[index].overview }}</p>
+					<p class="vote">{{ movieSearch[index].vote_average }}</p>
+					<button class="deleteButton" @click="deleteParentMod(index)">X</button>
 				</div>
+			</div>
 
 		</div>
 	</div>
@@ -83,9 +81,9 @@ export default {
 		const movieSearch = ref([]);
 		const buttonPressed = ref(null)
 		const showModal = ref(false)
-    const movieTitle = ref({
-      title: "",  poster_path: "",  overview: "",  vote_average: ""
-    })
+		const movieTitle = ref({
+			title: "",  poster_path: "",  overview: "",  vote_average: ""
+		})
 		const load = async () => {
 			try {
 				let data = await fetch('https://api.themoviedb.org/3/discover/movie?api_key=85acbd9e80501242e6970d5c94bf2af3&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate',
@@ -129,13 +127,13 @@ export default {
 			showModal.value = !showModal.value
 		}
 
-    const addMovie = () => {
-      movies.value.results.push(movieTitle.value)
-      showModal.value = false
-      console.log(movieTitle.value);
-    }
+		const addMovie = () => {
+			movies.value.results.push(movieTitle.value)
+			showModal.value = false
+			console.log(movieTitle.value);
+		}
 
-    return {
+		return {
 			movies,
 			error,
 			search,
@@ -146,8 +144,8 @@ export default {
 			deleteParentMod,
 			showModal,
 			toggleModal,
-      movieTitle,
-      addMovie
+			movieTitle,
+			addMovie
 		}
 	}
 }
@@ -335,5 +333,58 @@ export default {
 .deleteButton:hover {
 	color: #F9F871;
 	font-size: 1.2rem;
+}
+.addButton {
+	background: linear-gradient(to bottom right, #B3576A, #E68164);
+	border: 0;
+	border-radius: 12px;
+	color: #FFFFFF;
+	cursor: pointer;
+	display: inline-block;
+	font-family: Valkyrie,serif;
+	font-size: 1rem;
+	line-height: 2.5;
+	outline: transparent;
+	padding: 0 1rem;
+	margin: 1em auto;
+	text-align: center;
+	text-decoration: none;
+	transition: box-shadow .2s ease-in-out;
+	user-select: none;
+	-webkit-user-select: none;
+	touch-action: manipulation;
+	white-space: nowrap;
+}
+.addButton:not([disabled]):focus {
+	box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
+}
+.addButton:not([disabled]):hover {
+	box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
+}
+.write {
+	font-family: Valkyrie, serif;
+	font-size: .8rem;
+	color: #eee;
+	background: #1E1432;
+	border: none;
+	width: 80%;
+	height: 2rem;
+	margin: 1em;
+	padding-left: 1em;
+	border-radius: 20px;
+	transition: ease-in-out 1.3s linear;
+}
+.write:active, .write:focus {
+	outline: none;
+	border-bottom: #E68164 2px solid;
+	transition: ease-in-out 1.3s linear;
+}
+.write::placeholder {
+	color: #ddd;
+}
+.modalForm {
+	display: grid;
+	justify-content: center;
+	grid-template-columns: 1fr;
 }
 </style>

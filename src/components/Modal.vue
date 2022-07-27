@@ -12,16 +12,17 @@
 
 <style>
 .modal {
-	width: 400px;
+	width: 30em;
+	height: 25em;
 	padding: 20px;
 	margin: 200px auto;
-	background: white;
+	background: linear-gradient(to bottom right, #827398, #322646);
 	border-radius: 10px;
 }
 .backdrop {
 	top: 0;
 	position: fixed;
-	background: rgba(0,0,0,0.5);
+	background: linear-gradient(to bottom right, rgba(50, 38, 70,.5), rgba(230, 129, 100, .5));
 	width: 100%;
 	height: 100%;
 }
