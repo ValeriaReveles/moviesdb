@@ -9,16 +9,16 @@
 <style>
 
 @font-face{
-  font-family: Valkyrie;
-  src: url("@/assets/fonts/Valkyrie C4 Regular.otf");
+  font-family: Orbitron;
+  src: url("@/assets/fonts/Orbitron-Regular.ttf");
 }
 @font-face{
-  font-family: Valkyrie;
-  src: url("@/assets/fonts/Valkyrie C4 Bold.otf");
+  font-family: Orbitron;
+  src: url("@/assets/fonts/Orbitron-SemiBold.ttf");
   font-weight: bold;
 }
 #app {
-  font-family: Valkyrie, sans-serif;
+  font-family: BungeeInl, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
