@@ -17,9 +17,36 @@
 			</form>
 		</Modal>
 	</Teleport>
-
+	<Teleport to="body" v-if="showModalEdit">
+		<Modal @close="showModalEdit = false">
+			<form>
+				<div class="modalForm">
+					<br>
+					<select @change="selectedMovie(selected)" v-model="selected" class="write" name="movieSelect" id="movieSelect" >
+						<option disabled value="">Please Select a Movie to Edit</option>
+						<option v-for="(movie, index) in movies.results">{{ movies.results[index].title }}</option>
+					</select>
+					<br>
+					<label for="title">Title</label>
+					<input id="title" type="text" class="write" placeholder="Title" v-model="selectedTitle.title">
+					<br>
+					<label for="posterURL">Poster URL</label>
+					<input id="posterURL" type="text" class="write" placeholder="Poster URL" v-model="selectedTitle.poster_path">
+					<br>
+					<label for="description">Description</label>
+					<input id="description" type="text" class="write" placeholder="Description" v-model="selectedTitle.overview">
+					<br>
+					<label for="rating">Movie Rating</label>
+					<input id="rating" type="text" class="write" placeholder="Movie Rating" v-model="selectedTitle.vote_average">
+					<br>
+					<button class="addButton" @click.prevent="editMovie" >Edit Movie</button>
+				</div>
+			</form>
+		</Modal>
+	</Teleport>
 	<div class="header-search">
 		<h1 class="neon-text">El Tomate Pudrido</h1>
+		<button class="addButton" @click="showModalEdit = true">Edit a Movie</button>
 		<button class="addButton" @click="showModal = true">Add a Movie</button>
 		<input class="search" type="text" v-model="search" @keyup="searchArray" placeholder="Search movies..." />
 	</div>
@@ -69,7 +96,7 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import Modal from "@/components/Modal.vue"
 export default {
 	name: 'Movies',
@@ -81,6 +108,9 @@ export default {
 		const movieSearch = ref([]);
 		const buttonPressed = ref(null)
 		const showModal = ref(false)
+		const showModalEdit = ref(false)
+		const selected = ref("")
+		const selectedTitle = ref([])
 		const movieTitle = ref({
 			title: "",  poster_path: "",  overview: "",  vote_average: ""
 		})
@@ -132,7 +162,27 @@ export default {
 			showModal.value = false
 			console.log(movieTitle.value);
 		}
-
+		const selectedMovie = (title) => {
+			console.log("fired");
+			selectedTitle.value = [];
+			for (let i = 0; i < movies.value.results.length; i++) {
+				if (movies.value.results[i].title.toLowerCase().indexOf(title.toLowerCase()) > -1) {
+					selectedTitle.value = movies.value.results[i];
+				}
+			}
+		}
+		const editMovie = () => {
+			console.log("You're doing great <3")
+			for (let i = 0; i < movies.value.results.length; i++) {
+				if (movies.value.results[i].title.toLowerCase().indexOf(selectedTitle.value.title.toLowerCase()) > -1) {
+					movies.value.results[i].title = selectedTitle.value.title
+					movies.value.results[i].poster_path = selectedTitle.value.poster_path
+					movies.value.results[i].overview = selectedTitle.value.overview
+					movies.value.results[i].vote_average = selectedTitle.value.vote_average
+				}
+			}
+			showModalEdit.value = false;
+		}
 		return {
 			movies,
 			error,
@@ -143,15 +193,28 @@ export default {
 			deleteParent,
 			deleteParentMod,
 			showModal,
+			showModalEdit,
 			toggleModal,
 			movieTitle,
-			addMovie
+			selected,
+			selectedTitle,
+			selectedMovie,
+			addMovie,
+			editMovie
 		}
 	}
 }
 </script>
 
 <style scoped>
+@font-face {
+	font-family: NeoncityDisplay;
+	src: url("@/assets/fonts/NeoncityDisplay-MVVLv.otf");
+}
+@font-face {
+	font-family: KdamThmor;
+	src: url("@/assets/fonts/KdamThmorPro-Regular.ttf");
+}
 .card-container {
 	display: flex;
 	flex-wrap: wrap;
@@ -165,14 +228,14 @@ export default {
 .movie-card {
 	height: 500px;
 	width: 300px;
-  font-family: HEXCO,sans-serif;
+	font-family: HEXCO,sans-serif;
 	border-radius: 10px;
 	background-size: cover;
 	background-repeat: no-repeat;
 	margin: .5em;
 	box-shadow: #68D9C3 6px 6px 15px ;
-  letter-spacing: 2px;
-  border: solid 1px #C5FCEF;
+	letter-spacing: 2px;
+	border: solid 1px #C5FCEF;
 
 }
 .movie-card1 {
@@ -182,9 +245,9 @@ export default {
 	background-size: cover;
 	margin: .7em;
 	box-shadow: #68D9C3 6px 6px 15px;
-  font-family: HEXCO,sans-serif;
-  letter-spacing: 2px;
-  border: solid 1px #C5FCEF;
+	font-family: HEXCO,sans-serif;
+	letter-spacing: 2px;
+	border: solid 1px #C5FCEF;
 
 }
 .header-search h1{
@@ -193,58 +256,57 @@ export default {
 	padding-top:.2em;
 	text-align: left;
 	padding-left: .6em;
-	background: #1e1432;
-	margin: 0;
-  font-family: NeoncityDisplay, sans-serif;
-  color: #fff;
-  animation: pulsate 0.11s ease-in-out infinite alternate;
-  color: #fff;
-  text-shadow:
-      0 0 7px #fff,
-      0 0 10px #fff,
-      0 0 21px #fff,
-      0 0 42px #f09,
-      0 0 82px #f09,
-      0 0 92px #f09,
-      0 0 102px #f09,
-      0 0 151px #f09;
+	margin: 0 0 0 .7em;
+	font-family: NeoncityDisplay, sans-serif;
+	color: #fff;
+	overflow: visible;
+	animation: pulsate 0.11s ease-in-out infinite alternate;
+	text-shadow:
+		0 0 7px #fff,
+		0 0 10px #fff,
+		0 0 21px #fff,
+		0 0 42px #f09,
+		0 0 82px #f09,
+		0 0 92px #f09,
+		0 0 102px #f09,
+		0 0 131px #f09;
 }
 @keyframes pulsate {
-  100% {
-    text-shadow: 0 0 4px #fff,
-    0 0 11px #fff,
-    0 0 19px #fff,
-    0 0 40px #f09,
-    0 0 80px #f09,
-    0 0 90px #f09,
-    0 0 100px #f09,
-    0 0 150px #f09;
-  }
-  0% {
-    text-shadow: 0 0 4px #fff,
-    0 0 10px #fff,
-    0 0 18px #fff,
-    0 0 38px #f09,
-    0 0 73px #f09,
-    0 0 80px #f09,
-    0 0 94px #f09,
-    0 0 140px #f09;
-  }
+	100% {
+		text-shadow: 0 0 4px #fff,
+		0 0 11px #fff,
+		0 0 19px #fff,
+		0 0 40px #f09,
+		0 0 80px #f09,
+		0 0 90px #f09,
+		0 0 100px #f09,
+		0 0 130px #f09;
+	}
+	0% {
+		text-shadow: 0 0 4px #fff,
+		0 0 10px #fff,
+		0 0 18px #fff,
+		0 0 38px #f09,
+		0 0 73px #f09,
+		0 0 80px #f09,
+		0 0 94px #f09,
+		0 0 120px #f09;
+	}
 }
 .header-search{
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	background: #1e1432;
+	background: linear-gradient(90deg, transparent 20%, #1e1432);
 }
 
 .title{
-  font-family: Orbitron, sans-serif;
-  font-weight: bold;
+	font-family: Orbitron, sans-serif;
+	font-weight: bold;
 }
 
 .overview{
-  font-family: "Kdam Thmor Pro", sans-serif;
+	font-family: KdamThmor, sans-serif;
 }
 
 .search{
@@ -252,7 +314,7 @@ export default {
 	width: 30em;
 	margin:1em;
 	background: #faeaff;
-	font-family: Valkyrie, serif;
+	font-family: Orbitron, serif;
 	border: none;
 	border-radius: 5px;
 	outline: none;
@@ -341,7 +403,7 @@ export default {
 	color: #FFFFFF;
 	cursor: pointer;
 	display: inline-block;
-	font-family: Valkyrie,serif;
+	font-family: KdamThmor,serif;
 	font-size: 1rem;
 	line-height: 2.5;
 	outline: transparent;
@@ -349,7 +411,7 @@ export default {
 	margin: 1em auto;
 	text-align: center;
 	text-decoration: none;
-	transition: box-shadow .2s ease-in-out;
+	transition: box-shadow .7s ease-in-out;
 	user-select: none;
 	-webkit-user-select: none;
 	touch-action: manipulation;
@@ -362,7 +424,7 @@ export default {
 	box-shadow: 0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(239, 71, 101, 0.5), .125rem .125rem 1rem rgba(255, 154, 90, 0.5);
 }
 .write {
-	font-family: Valkyrie, serif;
+	font-family: Orbitron, serif;
 	font-size: .8rem;
 	color: #eee;
 	background: #1E1432;
@@ -381,6 +443,12 @@ export default {
 }
 .write::placeholder {
 	color: #ddd;
+}
+label {
+	font-family: Orbitron, serif;
+	font-size: 1rem;
+	color: #eee;
+	margin-left: 1em;
 }
 .modalForm {
 	display: grid;
