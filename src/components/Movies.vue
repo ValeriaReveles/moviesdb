@@ -19,7 +19,7 @@
 	</Teleport>
 
 	<div class="header-search">
-		<h1>El Tomate Pudrido</h1>
+		<h1 class="neon-text">El Tomate Pudrido</h1>
 		<button class="addButton" @click="showModal = true">Add a Movie</button>
 		<input class="search" type="text" v-model="search" @keyup="searchArray" placeholder="Search movies..." />
 	</div>
@@ -165,11 +165,15 @@ export default {
 .movie-card {
 	height: 500px;
 	width: 300px;
+  font-family: HEXCO,sans-serif;
 	border-radius: 10px;
 	background-size: cover;
 	background-repeat: no-repeat;
 	margin: .5em;
 	box-shadow: #68D9C3 6px 6px 15px ;
+  letter-spacing: 2px;
+  border: solid 1px #C5FCEF;
+
 }
 .movie-card1 {
 	height: 400px;
@@ -178,6 +182,10 @@ export default {
 	background-size: cover;
 	margin: .7em;
 	box-shadow: #68D9C3 6px 6px 15px;
+  font-family: HEXCO,sans-serif;
+  letter-spacing: 2px;
+  border: solid 1px #C5FCEF;
+
 }
 .header-search h1{
 	font-size: 3rem;
@@ -187,6 +195,41 @@ export default {
 	padding-left: .6em;
 	background: #1e1432;
 	margin: 0;
+  font-family: NeoncityDisplay, sans-serif;
+  color: #fff;
+  animation: pulsate 0.11s ease-in-out infinite alternate;
+  color: #fff;
+  text-shadow:
+      0 0 7px #fff,
+      0 0 10px #fff,
+      0 0 21px #fff,
+      0 0 42px #f09,
+      0 0 82px #f09,
+      0 0 92px #f09,
+      0 0 102px #f09,
+      0 0 151px #f09;
+}
+@keyframes pulsate {
+  100% {
+    text-shadow: 0 0 4px #fff,
+    0 0 11px #fff,
+    0 0 19px #fff,
+    0 0 40px #f09,
+    0 0 80px #f09,
+    0 0 90px #f09,
+    0 0 100px #f09,
+    0 0 150px #f09;
+  }
+  0% {
+    text-shadow: 0 0 4px #fff,
+    0 0 10px #fff,
+    0 0 18px #fff,
+    0 0 38px #f09,
+    0 0 73px #f09,
+    0 0 80px #f09,
+    0 0 94px #f09,
+    0 0 140px #f09;
+  }
 }
 .header-search{
 	display: flex;
@@ -194,6 +237,16 @@ export default {
 	justify-content: space-between;
 	background: #1e1432;
 }
+
+.title{
+  font-family: Orbitron, sans-serif;
+  font-weight: bold;
+}
+
+.overview{
+  font-family: "Kdam Thmor Pro", sans-serif;
+}
+
 .search{
 	height:2em;
 	width: 30em;
