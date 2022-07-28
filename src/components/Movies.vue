@@ -50,59 +50,66 @@
 		<button class="addButton" @click="showModal = true">Add a Movie</button>
 		<input class="search" type="text" v-model="search" @keyup="searchArray" placeholder="Search movies..." />
 	</div>
-	<div v-if="error">{{ error }}</div>
-	<div v-if="movies.length === 0"><h1>LOADING...</h1></div>
-	<div v-if="search === ''" class="card-container">
-		<div v-for="(movie, index) in movies.results">
-			<div v-if="index % 2 === 0" class="movie-card" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movies.results[index].poster_path}')`}">
-				<div class="card-contents">
-					<div class="title"><p>{{ movies.results[index].title }}</p></div>
-					<p class="overview">{{ movies.results[index].overview }}</p>
-					<p class="vote">{{ movies.results[index].vote_average }}</p>
-					<button class="deleteButton" @click="deleteParent(index)">X</button>
-				</div>
-			</div>
-			<div v-if="index % 2 !== 0" class="movie-card1" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movies.results[index].poster_path}')`}">
-				<div class="card-contents">
-					<div class="title"><p>{{ movies.results[index].title }}</p></div>
-					<p class="overview">{{ movies.results[index].overview }}</p>
-					<p class="vote">{{ movies.results[index].vote_average }}</p>
-					<button class="deleteButton" @click="deleteParent(index)" >X</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div v-else class="card-container">
-		<div v-for="(movie, index) in movieSearch">
-			<div v-if="index % 2 === 0" class="movie-card" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movieSearch[index].poster_path}')`}">
-				<div class="card-contents">
-					<div class="title"><p>{{ movieSearch[index].title }}</p></div>
-					<p class="overview">{{ movieSearch[index].overview }}</p>
-					<p class="vote">{{ movieSearch[index].vote_average }}</p>
-					<button class="deleteButton" @click="deleteParentMod(index)">X</button>
-				</div>
-			</div>
-			<div v-else class="movie-card1" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movieSearch[index].poster_path}')`}">
-				<div class="card-contents">
-					<div class="title"><p>{{ movieSearch[index].title }}</p></div>
-					<p class="overview">{{ movieSearch[index].overview }}</p>
-					<p class="vote">{{ movieSearch[index].vote_average }}</p>
-					<button class="deleteButton" @click="deleteParentMod(index)">X</button>
-				</div>
-			</div>
 
+	<div v-if="error">{{ error }}</div>
+	<suspense>
+<!--	<div v-if="movies.results.length === 0"><Loading /></div>-->
+	</suspense>
+	<suspense>
+		<div v-if="search === ''" class="card-container">
+			<div v-for="(movie, index) in movies.results">
+				<div v-if="index % 2 === 0" class="movie-card" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movies.results[index].poster_path}')`}">
+					<div class="card-contents">
+						<div class="title"><p>{{ movies.results[index].title }}</p></div>
+						<p class="overview">{{ movies.results[index].overview }}</p>
+						<p class="vote">{{ movies.results[index].vote_average }}</p>
+						<button class="deleteButton" @click="deleteParent(index)">X</button>
+					</div>
+				</div>
+				<div v-if="index % 2 !== 0" class="movie-card1" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movies.results[index].poster_path}')`}">
+					<div class="card-contents">
+						<div class="title"><p>{{ movies.results[index].title }}</p></div>
+						<p class="overview">{{ movies.results[index].overview }}</p>
+						<p class="vote">{{ movies.results[index].vote_average }}</p>
+						<button class="deleteButton" @click="deleteParent(index)" >X</button>
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
+		<div v-else class="card-container">
+			<div v-for="(movie, index) in movieSearch">
+				<div v-if="index % 2 === 0" class="movie-card" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movieSearch[index].poster_path}')`}">
+					<div class="card-contents">
+						<div class="title"><p>{{ movieSearch[index].title }}</p></div>
+						<p class="overview">{{ movieSearch[index].overview }}</p>
+						<p class="vote">{{ movieSearch[index].vote_average }}</p>
+						<button class="deleteButton" @click="deleteParentMod(index)">X</button>
+					</div>
+				</div>
+				<div v-else class="movie-card1" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movieSearch[index].poster_path}')`}">
+					<div class="card-contents">
+						<div class="title"><p>{{ movieSearch[index].title }}</p></div>
+						<p class="overview">{{ movieSearch[index].overview }}</p>
+						<p class="vote">{{ movieSearch[index].vote_average }}</p>
+						<button class="deleteButton" @click="deleteParentMod(index)">X</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</suspense>
 </template>
 
 <script>
 import { ref } from "vue";
 import Modal from "@/components/Modal.vue"
+import Loading from "@/views/LoadingPage.vue"
 export default {
 	name: 'Movies',
-	components: { Modal },
+	components: { Modal, Loading },
 	setup() {
 		const movies = ref([]);
+		const movies1 = ref([]);
+		const movies2 = ref([]);
 		const error = ref(null);
 		const search = ref("");
 		const movieSearch = ref([]);
@@ -114,6 +121,7 @@ export default {
 		const movieTitle = ref({
 			title: "",  poster_path: "",  overview: "",  vote_average: ""
 		})
+
 		const load = async () => {
 			try {
 				let data = await fetch('https://api.themoviedb.org/3/discover/movie?api_key=85acbd9e80501242e6970d5c94bf2af3&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate',
@@ -126,20 +134,55 @@ export default {
 				if (!data.ok) {
 					throw Error("No data available for the request")
 				}
-				movies.value = await data.json()
-				console.log(movies.value);
+				movies1.value = await data.json();
 			} catch (err) {
 				error.value = err.message
 				console.log(error.value)
 			}
+			try {
+				let data = await fetch('https://api.themoviedb.org/3/discover/movie?api_key=85acbd9e80501242e6970d5c94bf2af3&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2&with_watch_monetization_types=flatrate',
+					{
+						method: 'get',
+						headers: {
+							'content-type': 'application/json'
+						}
+					})
+				if (!data.ok) {
+					throw Error("No data available for the request")
+				}
+				movies2.value = await data.json();
+				console.log(movies2.value);
+			} catch (err) {
+				error.value = err.message
+				console.log(error.value)
+			}
+			await movieCombine();
 		}
 		load()
+
+		const movieCombine = async () => {
+			console.log("fired");
+			movies.value.results = []
+			movies.value.page = await movies1.value.page;
+			for (let i = 0; i < 20; i++) {
+				movies.value.results.push(await movies1.value.results[i])
+			}
+			for (let i = 0; i < 20; i++) {
+				movies.value.results.push(await movies2.value.results[i])
+			}
+			movies.value.total_pages = await movies1.value.total_pages;
+			movies.value.total_results = await movies1.value.total_results
+			console.log(movies.value)
+			return movies.value
+		}
+
 		async function searchArray() {
 			movieSearch.value = [];
 			for (let i = 0; i < movies.value.results.length; i++) {
 				if (movies.value.results[i].title.toLowerCase().indexOf(search.value.toLowerCase()) > -1) {
 					movieSearch.value.push(movies.value.results[i]);
 				}
+				console.log(movies.value)
 			}
 		}
 		const deleteParent = async (i) => {
@@ -152,9 +195,6 @@ export default {
 
 				}
 			})
-		}
-		const toggleModal = () => {
-			showModal.value = !showModal.value
 		}
 
 		const addMovie = () => {
@@ -194,7 +234,6 @@ export default {
 			deleteParentMod,
 			showModal,
 			showModalEdit,
-			toggleModal,
 			movieTitle,
 			selected,
 			selectedTitle,

@@ -9,12 +9,13 @@
 
 
 <script>
+import router from '@/router'
 export default {
   name: 'LoadingPage',
   setup () {
     setTimeout(myURL, 5000);
     function myURL(){
-      window.open("/home");
+      router.push({name: "home"})
     }
   }
 
@@ -24,8 +25,8 @@ export default {
 
 <style scoped>
  @font-face {
-  font-family: Neomax;
-   src: url("@/assets/fonts/Neomax Regular.ttf");
+  font-family: Vegapunk;
+   src: url("@/assets/fonts/Vegapunk-Free.otf");
 }
  /*body{*/
  /*  background: black;*/
