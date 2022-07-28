@@ -50,32 +50,97 @@
 		<button class="addButton" @click="showModal = true">Add a Movie</button>
 		<input class="search" type="text" v-model="search" @keyup="searchArray" placeholder="Search movies..." />
 	</div>
-
-	<div v-if="error">{{ error }}</div>
 	<suspense>
-<!--	<div v-if="movies.results.length === 0"><Loading /></div>-->
+		<div v-if="error">{{ error }}</div>
 	</suspense>
-	<suspense>
 		<div v-if="search === ''" class="card-container">
+			<h1>ACTION</h1>
 			<div v-for="(movie, index) in movies.results">
-				<div v-if="index % 2 === 0" class="movie-card" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movies.results[index].poster_path}')`}">
-					<div class="card-contents">
-						<div class="title"><p>{{ movies.results[index].title }}</p></div>
-						<p class="overview">{{ movies.results[index].overview }}</p>
-						<p class="vote">{{ movies.results[index].vote_average }}</p>
-						<button class="deleteButton" @click="deleteParent(index)">X</button>
-					</div>
-				</div>
-				<div v-if="index % 2 !== 0" class="movie-card1" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movies.results[index].poster_path}')`}">
-					<div class="card-contents">
-						<div class="title"><p>{{ movies.results[index].title }}</p></div>
-						<p class="overview">{{ movies.results[index].overview }}</p>
-						<p class="vote">{{ movies.results[index].vote_average }}</p>
-						<button class="deleteButton" @click="deleteParent(index)" >X</button>
+				<div v-for="category in movie.genre_ids">
+					<div v-if="category === 28">
+						<div v-if="index % 2 === 0" :[movie.rendered]="true" class="movie-card" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movies.results[index].poster_path}')`}">
+							<div class="card-contents">
+								<div class="title"><p>{{ movies.results[index].title }}</p></div>
+								<p class="overview">{{ movies.results[index].overview }}</p>
+								<p class="vote">{{ movies.results[index].vote_average }}</p>
+								<button class="deleteButton" @click="deleteParent(index)">X</button>
+							</div>
+						</div>
+						<div v-if="index % 2 !== 0" :ref="movie.rendered = true" class="movie-card1" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movies.results[index].poster_path}')`}">
+							<div class="card-contents">
+								<div class="title"><p>{{ movies.results[index].title }}</p></div>
+								<p class="overview">{{ movies.results[index].overview }}</p>
+								<p class="vote">{{ movies.results[index].vote_average }}</p>
+								<button class="deleteButton" @click="deleteParent(index)" >X</button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		<div v-if="search === ''" class="card-container">
+			<h1>COMEDY</h1>
+			<div v-for="(movie, index) in movies.results">
+				<div v-for="category in movie.genre_ids">
+					<div v-if="category === 35">
+						<div v-if="index % 2 === 0" class="movie-card" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movies.results[index].poster_path}')`}">
+							<div class="card-contents">
+								<div class="title"><p>{{ movies.results[index].title }}</p></div>
+								<p class="overview">{{ movies.results[index].overview }}</p>
+								<p class="vote">{{ movies.results[index].vote_average }}</p>
+								<button class="deleteButton" @click="deleteParent(index)">X</button>
+							</div>
+						</div>
+						<div v-if="index % 2 !== 0" class="movie-card1" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movies.results[index].poster_path}')`}">
+							<div class="card-contents">
+								<div class="title"><p>{{ movies.results[index].title }}</p></div>
+								<p class="overview">{{ movies.results[index].overview }}</p>
+								<p class="vote">{{ movies.results[index].vote_average }}</p>
+								<button class="deleteButton" @click="deleteParent(index)" >X</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div v-if="search === ''" class="card-container">
+			<h1>HORROR</h1>
+			<div v-for="(movie, index) in movies.results">
+				<div v-for="category in movie.genre_ids">
+					<div v-if="category === 27">
+						<div v-if="index % 2 === 0" class="movie-card" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movies.results[index].poster_path}')`}">
+							<div class="card-contents">
+								<div class="title"><p>{{ movies.results[index].title }}</p></div>
+								<p class="overview">{{ movies.results[index].overview }}</p>
+								<p class="vote">{{ movies.results[index].vote_average }}</p>
+								<button class="deleteButton" @click="deleteParent(index)">X</button>
+							</div>
+						</div>
+						<div v-if="index % 2 !== 0" class="movie-card1" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movies.results[index].poster_path}')`}">
+							<div class="card-contents">
+								<div class="title"><p>{{ movies.results[index].title }}</p></div>
+								<p class="overview">{{ movies.results[index].overview }}</p>
+								<p class="vote">{{ movies.results[index].vote_average }}</p>
+								<button class="deleteButton" @click="deleteParent(index)" >X</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<div v-if="search === ''" class="card-container">
+		<h1>MISCELLANEOUS</h1>
+		<div v-for="(movie, index) in movies.results">
+					<div class="movie-card" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movies.results[index].poster_path}')`}">
+						<div class="card-contents">
+							<div class="title"><p>{{ movies.results[index].title }}</p></div>
+							<p class="overview">{{ movies.results[index].overview }}</p>
+							<p class="vote">{{ movies.results[index].vote_average }}{{ movies.rendered }}</p>
+							<button class="deleteButton" @click="deleteParent(index)">X</button>
+						</div>
+			</div>
+		</div>
+	</div>
 		<div v-else class="card-container">
 			<div v-for="(movie, index) in movieSearch">
 				<div v-if="index % 2 === 0" class="movie-card" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movieSearch[index].poster_path}')`}">
@@ -96,7 +161,6 @@
 				</div>
 			</div>
 		</div>
-	</suspense>
 </template>
 
 <script>
@@ -124,7 +188,7 @@ export default {
 
 		const load = async () => {
 			try {
-				let data = await fetch('https://api.themoviedb.org/3/discover/movie?api_key=85acbd9e80501242e6970d5c94bf2af3&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate',
+				let data = await fetch('https://api.themoviedb.org/3/discover/movie?api_key=85acbd9e80501242e6970d5c94bf2af3&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_watch_monetization_types=flatrate',
 					{
 						method: 'get',
 						headers: {
@@ -140,7 +204,7 @@ export default {
 				console.log(error.value)
 			}
 			try {
-				let data = await fetch('https://api.themoviedb.org/3/discover/movie?api_key=85acbd9e80501242e6970d5c94bf2af3&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=2&with_watch_monetization_types=flatrate',
+				let data = await fetch('https://api.themoviedb.org/3/discover/movie?api_key=85acbd9e80501242e6970d5c94bf2af3&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=2&with_watch_monetization_types=flatrate',
 					{
 						method: 'get',
 						headers: {
@@ -166,12 +230,15 @@ export default {
 			movies.value.page = await movies1.value.page;
 			for (let i = 0; i < 20; i++) {
 				movies.value.results.push(await movies1.value.results[i])
+				movies.value.results.rendered = false;
 			}
 			for (let i = 0; i < 20; i++) {
 				movies.value.results.push(await movies2.value.results[i])
+				movies.value.results.rendered = false;
 			}
 			movies.value.total_pages = await movies1.value.total_pages;
 			movies.value.total_results = await movies1.value.total_results
+
 			console.log(movies.value)
 			return movies.value
 		}
@@ -254,15 +321,31 @@ export default {
 	font-family: KdamThmor;
 	src: url("@/assets/fonts/KdamThmorPro-Regular.ttf");
 }
+* {
+	box-sizing: border-box;
+}
+.home {
+	overflow: scroll;
+	margin: 0;
+	padding: 0;
+}
 .card-container {
 	display: flex;
 	flex-wrap: wrap;
-	flex-direction: row;
-	justify-content: space-evenly;
-	align-items: center;
-	height: 100vh;
-	width: 100vw;
-	overflow: scroll;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-end;
+	height: 550px;
+	width: 100%;
+	margin: 1em;
+	background: linear-gradient(90deg, transparent, rgba(0,0,0,.3) 99%);
+	overflow-x: scroll;
+	overflow-y: hidden;
+}
+.card-container h1 {
+	font-family: KdamThmor, serif;
+	position: relative;
+	margin: auto 1em;
 }
 .movie-card {
 	height: 500px;
@@ -278,7 +361,7 @@ export default {
 
 }
 .movie-card1 {
-	height: 400px;
+	height: 500px;
 	width: 300px;
 	border-radius: 10px;
 	background-size: cover;
