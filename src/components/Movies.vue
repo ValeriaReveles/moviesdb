@@ -57,8 +57,8 @@
 	</suspense>
 	<suspense>
 		<div v-if="search === ''" class="card-container">
-			<div v-for="(movie, index) in movies.results">
-				<div v-if="index % 2 === 0" class="movie-card" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movies.results[index].poster_path}')`}">
+			<div v-for="(movie, index) in movies.results" class="add-card">
+				<div v-if="index % 2 === 0" class="movie-card" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movies.results[index].poster_path}'), linear-gradient(41deg, rgba(249,248,113,1) 0%, rgba(255,68,119,1) 47%, rgba(255,167,74,1) 90%)`}">
 					<div class="card-contents">
 						<div class="title"><p>{{ movies.results[index].title }}</p></div>
 						<p class="overview">{{ movies.results[index].overview }}</p>
@@ -66,7 +66,7 @@
 						<button class="deleteButton" @click="deleteParent(index)">X</button>
 					</div>
 				</div>
-				<div v-if="index % 2 !== 0" class="movie-card1" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movies.results[index].poster_path}')`}">
+				<div v-if="index % 2 !== 0" class="movie-card1" :style="{'background-image':`url('https://image.tmdb.org/t/p/original/${movies.results[index].poster_path}'), linear-gradient(41deg, rgba(249,248,113,1) 0%, rgba(255,68,119,1) 47%, rgba(255,167,74,1) 90%)`}">
 					<div class="card-contents">
 						<div class="title"><p>{{ movies.results[index].title }}</p></div>
 						<p class="overview">{{ movies.results[index].overview }}</p>
@@ -263,6 +263,11 @@ export default {
 	height: 100vh;
 	width: 100vw;
 	overflow: scroll;
+
+}
+
+.add-card{
+
 }
 .movie-card {
 	height: 500px;
