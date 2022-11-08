@@ -1,4 +1,4 @@
-# moviesdb
+# Welcome to our Movie Project!
 
 ## Project setup
 ```
